@@ -15,6 +15,11 @@ set splitright
 set foldmethod=indent
 set foldlevel=99
 
+noremap <Up> <Nop>
+noremap <Down> <Nop>
+noremap <Left> <Nop>
+noremap <Right> <Nop>
+
 call plug#begin('~/.vim/plugged')
 
 Plug 'easymotion/vim-easymotion'
