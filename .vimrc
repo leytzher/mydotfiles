@@ -40,6 +40,18 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'junegunn/seoul256.vim'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'mg979/vim-visual-multi'
+Plug 'xolox/vim-misc'
+Plug 'majutsushi/tagbar'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'klen/python-mode'
+Plug 'fs111/pydoc.vim'
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
+Plug 'airblade/vim-gitgutter'
+
 
 call plug#end()
 
