@@ -19,6 +19,8 @@ noremap <Up> <Nop>
 noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
+inoremap jk <Esc>
+inoremap kj <Esc>
 
 call plug#begin('~/.vim/plugged')
 
