@@ -1,7 +1,7 @@
 set number
 set mouse=a
 set numberwidth=1
-set clipboard=unnamed
+set clipboard=unnamedplus
 syntax enable
 set showcmd
 set ruler
@@ -51,7 +51,8 @@ Plug 'fs111/pydoc.vim'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 Plug 'airblade/vim-gitgutter'
-
+Plug 'leafOfTree/vim-vue-plugin'
+Plug 'pangloss/vim-javascript'
 
 call plug#end()
 
@@ -61,6 +62,8 @@ let g:SimplyFold_docstring_preview=1
 let g:ycm_autoclose_preview_window_after_completion=1
 let python_highlight_all=1
 let g:ctrlp_map='<C-p>'
+let g:vim_vue_plugin_load_full_syntax = 1
+let g:javascript_plugin_jsdoc = 1
 
 colo seoul256 
 syntax on
