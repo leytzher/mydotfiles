@@ -56,7 +56,7 @@ Plug 'airblade/vim-gitgutter'
 call plug#end()
 
 let mapleader=" "
-let NERDTreeQuitOnOpen=1
+let NERDTreeQuitOnOpen=0
 let g:SimplyFold_docstring_preview=1
 let g:ycm_autoclose_preview_window_after_completion=1
 let python_highlight_all=1
