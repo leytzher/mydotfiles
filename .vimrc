@@ -1,8 +1,7 @@
 set number
 set mouse=a
 set numberwidth=1
-set clipboard=unnamedplus
-syntax enable
+set clipboard=unnamed
 set showcmd
 set ruler
 set encoding=utf-8
@@ -14,6 +13,7 @@ set splitbelow
 set splitright
 set foldmethod=indent
 set foldlevel=99
+set bg=dark
 
 noremap <Up> <Nop>
 noremap <Down> <Nop>
@@ -39,7 +39,7 @@ Plug 'gilgigilgil/anderson.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'junegunn/seoul256.vim'
+Plug 'morhetz/gruvbox'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'mg979/vim-visual-multi'
@@ -51,8 +51,7 @@ Plug 'fs111/pydoc.vim'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 Plug 'airblade/vim-gitgutter'
-Plug 'leafOfTree/vim-vue-plugin'
-Plug 'pangloss/vim-javascript'
+
 
 call plug#end()
 
@@ -62,10 +61,11 @@ let g:SimplyFold_docstring_preview=1
 let g:ycm_autoclose_preview_window_after_completion=1
 let python_highlight_all=1
 let g:ctrlp_map='<C-p>'
-let g:vim_vue_plugin_load_full_syntax = 1
-let g:javascript_plugin_jsdoc = 1
+let g:gruvbox_italic=1
+let g:gruvbox_contrast_dark="hard"
 
-colo seoul256 
+
+colorscheme gruvbox
 syntax on
 
 nmap <Leader>s <Plug>(easymotion-2)
