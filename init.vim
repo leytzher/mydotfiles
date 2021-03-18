@@ -28,7 +28,6 @@ set completeopt+=noinsert
 set statusline=%<%f\ %h%m%r%{kite#statusline()}%=%-14.(%l,%c%V%)\ %P
 set laststatus=2
 set splitbelow splitright
-command! MakeTags !ctags -R . 
 
 call plug#begin('~/.vim/plugged')
 Plug 'KKPMW/vim-sendtowindow'  				" send commands to REPL
@@ -47,6 +46,7 @@ Plug 'scrooloose/nerdtree'				" side bar file tree
 Plug 'tmhedberg/SimpylFold'				" Code folding (zo: open, zc: close)
 Plug 'tpope/vim-fugitive'				" allows git commands in vim session
 Plug 'SirVer/ultisnips'					" hotkeys for chunks of code
+Plug 'puremourning/vimspector'				" vim debugger
 Plug 'vim-scripts/indentpython.vim'
 Plug 'vim-syntastic/syntastic'
 Plug 'nvie/vim-flake8'
@@ -64,8 +64,8 @@ Plug 'mg979/vim-visual-multi'
 Plug 'xolox/vim-misc'
 Plug 'majutsushi/tagbar'
 Plug 'nathanaelkane/vim-indent-guides'
-"Plug 'klen/python-mode'
-"Plug 'fs111/pydoc.vim'
+Plug 'klen/python-mode'
+Plug 'fs111/pydoc.vim'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 Plug 'airblade/vim-gitgutter'
@@ -119,7 +119,7 @@ let g:lightline = {
 " ncm2
 autocmd BufEnter * call ncm2#enable_for_buffer() 		"enable ncm2 for all buffers
 set completeopt=noinsert,menuone,noselect
-let g:python3_host_prog='/home/lmuro/miniconda3/bin/python'  	" ncm2 jedi
+let g:python3_host_prog='/home/lmuro/miniconda3/bin/python3'  	" ncm2 jedi
 
 " gitgutter
 let g:gitgutter_async=0
@@ -129,7 +129,7 @@ let mapleader=" "
 let fortran_leader="`"
 
 " nerdtree settings
-let NERDTreeQuitOnOpen=0
+let NERDTreeQuitOnOpen=1
 nmap <Leader>nt :NERDTreeFind<CR>
 let NERDTreeIgnore = ['\.pyc$']		" ignore pyc files
 
@@ -202,17 +202,12 @@ set tabstop=2			" One tab == four spaces.<Paste>
 nmap ,p :w<CR>:!python3 %<CR>
 nmap ,t :w<CR>:!time python3 %<CR>
 
-
-
-
-
-
-
-
-
-
-
-
-
+" debugger
+let g:vimspector_enable_mappings = 'HUMAN'
+nmap <Leader>dd :call vimspector#Launch()<CR>
+nmap <Leader>dx :VimspectorReset<CR>
+nmap <Leader>de :VimspectorEval
+nmap <Leader>dw :VimspectorWatch
+nmap <Leader>do :VimspectorShowOutput
 
 
