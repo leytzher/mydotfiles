@@ -5,10 +5,11 @@ set wildmenu
 set number
 set mouse=a
 set numberwidth=1
-set clipboard=unnamed
+set clipboard+=unnamed
 set showcmd
 set ruler
 set encoding=utf-8
+set fileencoding=utf-8
 set showmatch
 set sw=2
 set relativenumber
@@ -28,8 +29,9 @@ set completeopt+=noinsert
 set statusline=%<%f\ %h%m%r%{kite#statusline()}%=%-14.(%l,%c%V%)\ %P
 set laststatus=2
 set splitbelow splitright
+set notimeout nottimeout
 
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 Plug 'KKPMW/vim-sendtowindow'  				" send commands to REPL
 Plug 'yuttie/comfortable-motion.vim'			" scrolling 'C-d' or `C-u'
 Plug 'ncm2/ncm2' 					" completion [dep]: nvim-0.2.2, nvim-yarp, python3
@@ -47,6 +49,10 @@ Plug 'tmhedberg/SimpylFold'				" Code folding (zo: open, zc: close)
 Plug 'tpope/vim-fugitive'				" allows git commands in vim session
 Plug 'SirVer/ultisnips'					" hotkeys for chunks of code
 Plug 'puremourning/vimspector'				" vim debugger
+Plug 'nvim-lua/popup.nvim'        " telescope
+Plug 'nvim-lua/plenary.nvim'      " telescope
+Plug 'nvim-telescope/telescope.nvim' "telescope
+Plug 'szw/vim-maximizer'          " vim maximizer
 Plug 'vim-scripts/indentpython.vim'
 Plug 'vim-syntastic/syntastic'
 Plug 'nvie/vim-flake8'
@@ -132,6 +138,7 @@ let fortran_leader="`"
 let NERDTreeQuitOnOpen=1
 nmap <Leader>nt :NERDTreeFind<CR>
 let NERDTreeIgnore = ['\.pyc$']		" ignore pyc files
+let NERDTreeShowHidden=1
 
 let g:ycm_autoclose_preview_window_after_completion=1
 let python_highlight_all=1
@@ -202,12 +209,44 @@ set tabstop=2			" One tab == four spaces.<Paste>
 nmap ,p :w<CR>:!python3 %<CR>
 nmap ,t :w<CR>:!time python3 %<CR>
 
+fun GoToWindow(id)
+  call win_gotoid(a:id)
+  MaximizerToggle
+endfun
+
 " debugger
-let g:vimspector_enable_mappings = 'HUMAN'
-nmap <Leader>dd :call vimspector#Launch()<CR>
-nmap <Leader>dx :VimspectorReset<CR>
-nmap <Leader>de :VimspectorEval
-nmap <Leader>dw :VimspectorWatch
-nmap <Leader>do :VimspectorShowOutput
+nnoremap <leader>m :MaximizerToggle!<CR>
+nnoremap <leader>dd :call vimspector#Launch()<CR>
+nnoremap <leader>dc :call GoToWindow(g:vimspector_session_windows.code)<CR>
+nnoremap <leader>dt :call GoToWindow(g:vimspector_session_windows.tagpage)<CR>
+nnoremap <leader>dv :call GoToWindow(g:vimspector_session_windows.variables)<CR>
+nnoremap <leader>dw :call GoToWindow(g:vimspector_session_windows.watches)<CR>
+nnoremap <leader>ds :call GoToWindow(g:vimspector_session_windows.stack_trace)<CR>
+nnoremap <leader>do :call GoToWindow(g:vimspector_session_windows.output)<CR>
+nnoremap <leader>de :call vimspector#Reset()<CR>
+nnoremap <leader>dtcb :call vimspector#CleanLineBreakpoint()<CR>
+nmap <leader>dl <Plug>VimspectorStepInto
+nmap <leader>dj <Plug>VimspectorStepOver
+nmap <leader>dk <Plug>VimspectorStepOut
+nmap <leader>d_ <Plug>VimspectorRestart
+nnoremap <leader>d<space> :call vimspector#Continue()<CR>
+nmap <leader>drc <Plug>VimspectorRunToCursor
+nmap <leader>dbp <Plug>VimspectorToggleBreakpoint
+nmap <leader>drc <Plug>VimspectorToggleConditionalBreakpoint
+
+
+packadd! vimspector
+
+" Find files using Telescope command-line sugar.
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+" Using lua functions
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 
 
