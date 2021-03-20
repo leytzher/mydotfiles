@@ -170,7 +170,7 @@ set termguicolors
 syntax on
 
 " Kite settings
-let g:kite_auto_complete=1
+let g:kite_auto_complete=1 
 let g:kite_tab_complete=1
 
 
@@ -293,9 +293,14 @@ nnoremap <leader>/ :Commentary<CR>
 vnoremap <leader>/ :Commentary<CR>
 
 " Fzf
-nnoremap <leader>p :Files<CR>
-nnoremap <leader>bl :Rg<CR>
-nnoremap <leader>bb :Buffers<CR>
-nnoremap <C-y> :History:<CR>
+nnoremap <leader>ff :Files<CR>
+nnoremap <leader>fl :Rg<CR>
+nnoremap <leader>fb :Buffers<CR>
+nnoremap <leader>fh :History:<CR>
 let g:fzf_layout = { 'window' : { 'width':0.8, 'height': 0.8 }}
 let $FZF_DEFAULT_OPTS='--reverse'
+
+if has("nvim")
+  au TermOpen * tnoremap <Esc> <c-\><c-n>
+  au FileType fzf tunmap <Esc>
+endif
