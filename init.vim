@@ -30,6 +30,17 @@ set statusline=%<%f\ %h%m%r%{kite#statusline()}%=%-14.(%l,%c%V%)\ %P
 set laststatus=2
 set splitbelow splitright
 set notimeout nottimeout
+set scrolloff=8
+set nohlsearch incsearch
+set undofile
+set hidden
+set autoread
+set updatetime=50
+set nowrap
+set smartcase
+set smartindent
+set inccommand=nosplit
+set noshowmode
 
 call plug#begin('~/.config/nvim/plugged')
 Plug 'KKPMW/vim-sendtowindow'  				" send commands to REPL
@@ -53,6 +64,11 @@ Plug 'nvim-lua/popup.nvim'        " telescope
 Plug 'nvim-lua/plenary.nvim'      " telescope
 Plug 'nvim-telescope/telescope.nvim' "telescope
 Plug 'szw/vim-maximizer'          " vim maximizer
+Plug 'neoclide/coc.nvim', {'do':{ -> coc#util#install()}}   " coc intellisense
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'sheerun/vim-polyglot'
+Plug 'mbbill/undotree'
 Plug 'vim-scripts/indentpython.vim'
 Plug 'vim-syntastic/syntastic'
 Plug 'nvie/vim-flake8'
@@ -253,3 +269,33 @@ nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 autocmd vimenter * hi Normal guibg=NONE ctermbg=NONE
 " For Vim<8, replace EndOfBuffer by NonText
 autocmd vimenter * hi EndOfBuffer guibg=NONE ctermbg=NONE
+
+command Reload execute "source ~/.config/nvim/init.vim"
+command Config execute ":e ~/.config/nvim/init.vim"
+
+" Only for nightly
+augroup highlight_yank
+  autocmd!
+  autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank()
+augroup END
+
+
+" Remaps for git fuggitive
+nnoremap <leader>gs :G<CR> 
+nnoremap <leader>gh :diffget //2<CR>
+nnoremap <leader>gl :diffget //3<CR>
+nnoremap <leader>gc :Gcommit<CR>
+nnoremap <leader>glg :Gllog<CR>
+nnoremap <leader>gp :Gpush<CR>
+
+" Remaps for commentary
+nnoremap <leader>/ :Commentary<CR>
+vnoremap <leader>/ :Commentary<CR>
+
+" Fzf
+nnoremap <leader>p :Files<CR>
+nnoremap <leader>bl :Rg<CR>
+nnoremap <leader>bb :Buffers<CR>
+nnoremap <C-y> :History:<CR>
+let g:fzf_layout = { 'window' : { 'width':0.8, 'height': 0.8 }}
+let $FZF_DEFAULT_OPTS='--reverse'
