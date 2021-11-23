@@ -36,13 +36,15 @@ set undofile
 set hidden
 set autoread
 set updatetime=50
-set nowrap
+" set nowrap
 set smartcase
 set smartindent
 set inccommand=nosplit
 set noshowmode
 
 call plug#begin('~/.config/nvim/plugged')
+Plug 'jiangmiao/auto-pairs'
+Plug 'kovisoft/slimv'
 Plug 'KKPMW/vim-sendtowindow'  				" send commands to REPL
 Plug 'yuttie/comfortable-motion.vim'			" scrolling 'C-d' or `C-u'
 Plug 'ncm2/ncm2' 					" completion [dep]: nvim-0.2.2, nvim-yarp, python3
@@ -52,7 +54,6 @@ Plug 'ncm2/ncm2-path'  					"complete paths
 Plug 'ncm2/ncm2-jedi' 					"Python completion
 Plug 'dense-analysis/ale' 				"linting [dep] pip install flake8
 Plug 'fisadev/vim-isort' 				"Python sort imports [dep]: pip install isort
-Plug 'mhinz/vim-startify' 				" A start menu fot vim
 Plug 'filipekiss/ncm2-look.vim' 			" ncm2 spelling
 Plug 'easymotion/vim-easymotion'			" go to any word quickly '\\w', '\\e', '\\b'
 Plug 'scrooloose/nerdtree'				" side bar file tree
@@ -64,7 +65,6 @@ Plug 'nvim-lua/popup.nvim'        " telescope
 Plug 'nvim-lua/plenary.nvim'      " telescope
 Plug 'nvim-telescope/telescope.nvim' "telescope
 Plug 'szw/vim-maximizer'          " vim maximizer
-Plug 'neoclide/coc.nvim', {'do':{ -> coc#util#install()}}   " coc intellisense
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'sheerun/vim-polyglot'
@@ -95,28 +95,28 @@ Plug 'rudrab/vimf90'
 Plug 'honza/vim-snippets'
 Plug 'JuliaEditorSupport/julia-vim'
 Plug 'itchyny/lightline.vim'
+Plug 'fatih/vim-go', {'do': ':GoUpdateBinaries' }
+Plug 'rust-lang/rust.vim'
 call plug#end()
 
-" ultisnips
+"" slimv
+let g:lisp_rainbow=1
+let g:paredit_electric_return=1
+
+"" ultisnips
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsEditSplit="vertical"
-
-" ncm2-loom
+"
+"" ncm2-loom
 let g:ncm2_look_enabled = 0
-
-"startify
-let g:startify_lists = [
-  \ {'type':'sessions', 'header': ['	Sessions']	},
-  \ {'type':'files', 'header': ['	Recents']	},
-  \ {'type':'commands', 'header': ['	Commands']	},
-  \ ]
-
-" vim-isort
+"
+"
+"" vim-isort
 let g:vim_isort_map = '<C-i>'
-
-" Ale linting
+"
+"" Ale linting
 let g:ale_sign_columns_always=1
 let g:ale_lint_on_enter=1
 let g:ale_lint_on_text_changed='always'
@@ -125,8 +125,8 @@ let g:ale_echo_msg_warning_str='W'
 let g:ale_echo_msg_format='[%linter%] %s [%severity%]: [%...code...%]'
 let g:ale_linter={'python':['flake8']}
 let g:ale_fixers={'python':['black']}
-
-" lightline
+"
+"" lightline
 let g:lightline = {
   \ 'colorscheme': 'wombat',
   \ 'active': {
@@ -137,80 +137,81 @@ let g:lightline = {
   \ 	'gitbranch': 'FugitiveHead'
   \ },
   \ }
-
-" ncm2
+"
+"" ncm2
 autocmd BufEnter * call ncm2#enable_for_buffer() 		"enable ncm2 for all buffers
 set completeopt=noinsert,menuone,noselect
 let g:python3_host_prog='/home/lmuro/miniconda3/bin/python3'  	" ncm2 jedi
-
-" gitgutter
+"
+"" gitgutter
 let g:gitgutter_async=0
-
-" set leader keys
+"
+"" set leader keys
 let mapleader=" "
 let fortran_leader="`"
-
-" nerdtree settings
+"
+"" nerdtree settings
 let NERDTreeQuitOnOpen=1
 nmap <Leader>nt :NERDTreeFind<CR>
 let NERDTreeIgnore = ['\.pyc$']		" ignore pyc files
 let NERDTreeShowHidden=1
-
+"
 let g:ycm_autoclose_preview_window_after_completion=1
 let python_highlight_all=1
-
-" Crtl-p to navigate project files
+"
+"" Crtl-p to navigate project files
 let g:ctrlp_map='<C-p>'
-
-" Theme settings
+"
+"" Theme settings
 let g:gruvbox_italic=1
 let g:gruvbox_contrast_dark="hard"
 colorscheme gruvbox
-set termguicolors
+"set termguicolors
 syntax on
-
-" Kite settings
+"
+"" Kite settings
 let g:kite_auto_complete=1 
 let g:kite_tab_complete=1
-
-
-" Activate for use in Linux 
-"nnoremap <A-j> :m .+1<CR>==
-"nnoremap <A-k> :m .-2<CR>==
-"inoremap <A-j> <Esc>:m .+1<CR>==gi
-"inoremap <A-k> <Esc>:m .-2<CR>==gi
-"vnoremap <A-j> :m '>+1<CR>gv=gv
-"vnoremap <A-k> :m '<-2<CR>gv=gv
-
-" Mac remapping for alt-j and alt-i
-nnoremap ∆ :m .+1<CR>==
-nnoremap ˚ :m .-2<CR>==
-inoremap ∆ <Esc>:m .+1<CR>==gi
-inoremap ˚ <Esc>:m .-2<CR>==gi
-vnoremap ∆ :m '>+1<CR>gv=gv
-vnoremap ˚ :m '<-2<CR>gv=gv
-
-
-" Window split
+"
+"
+"" Activate for use in Linux 
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
+inoremap <A-j> <Esc>:m .+1<CR>==gi
+inoremap <A-k> <Esc>:m .-2<CR>==gi
+vnoremap <A-j> :m '>+1<CR>gv=gv
+vnoremap <A-k> :m '<-2<CR>gv=gv
+"
+"" Mac remapping for alt-j and alt-i
+""nnoremap ∆ :m .+1<CR>==
+""nnoremap ˚ :m .-2<CR>==
+""inoremap ∆ <Esc>:m .+1<CR>==gi
+""inoremap ˚ <Esc>:m .-2<CR>==gi
+""vnoremap ∆ :m '>+1<CR>gv=gv
+""vnoremap ˚ :m '<-2<CR>gv=gv
+"
+"
+"" Window split
 set splitbelow splitright
-" Remap splits navigation to just CTRL + hjkl
+"" Remap splits navigation to just CTRL + hjkl
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
-" Make adjusting split sizes a bit more friendly
+"" Make adjusting split sizes a bit more friendly
 noremap <silent> <C-Left> :vertical resize +3<CR>
 noremap <silent> <C-Right> :vertical resize -3<CR>
 noremap <silent> <C-Up> :resize -3<CR>
 noremap <silent> <C-Down> :resize +3<CR>
-" Change 2 split windows from vert to horiz or viceversa
+"
+"" Change 2 split windows from vert to horiz or viceversa
 map <Leader>th <C-w>t<C-w>H
 map <Leader>tk <C-w>t<C-w>K
-" Start terminals for Python session '\tp'
+"" Start terminals for Python session '\tp'
 map <Leader>tp :new term://zsh<CR>ipython3<CR><C-\><C-n><C-w>k
 map <Leader>tj :new term://zsh<CR>ijulia<CR><C-\><C-n><C-w>k
-
-" General settings
+"
+"" General settings
 set updatetime=100		" set update time for gitgutter update
 set noswapfile			" no swap
 " tabs and spaces
@@ -218,19 +219,19 @@ set expandtab			" use spaces instead of tabs
 set smarttab			" use shiftwidth and tabstap to insert blanks when <Tab>
 set shiftwidth=2		" One tab == four spaces
 set tabstop=2			" One tab == four spaces.<Paste>
-" remap
+"" remap
 :imap jk <Esc>
 :imap kj <Esc>
-" python alias
+"" python alias
 nmap ,p :w<CR>:!python3 %<CR>
 nmap ,t :w<CR>:!time python3 %<CR>
-
+"
 fun GoToWindow(id)
   call win_gotoid(a:id)
   MaximizerToggle
 endfun
-
-" debugger
+"
+"" debugger
 nnoremap <leader>m :MaximizerToggle!<CR>
 nnoremap <leader>dd :call vimspector#Launch()<CR>
 nnoremap <leader>dc :call GoToWindow(g:vimspector_session_windows.code)<CR>
@@ -249,58 +250,58 @@ nnoremap <leader>d<space> :call vimspector#Continue()<CR>
 nmap <leader>drc <Plug>VimspectorRunToCursor
 nmap <leader>dbp <Plug>VimspectorToggleBreakpoint
 nmap <leader>drc <Plug>VimspectorToggleConditionalBreakpoint
-
-
+""
+"
 packadd! vimspector
-
-" Find files using Telescope command-line sugar.
+"
+"" Find files using Telescope command-line sugar.
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-
-" Using lua functions
+""
+"" Using lua functions
 nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
-
-" transparent bg
+"
+"" transparent bg
 autocmd vimenter * hi Normal guibg=NONE ctermbg=NONE
-" For Vim<8, replace EndOfBuffer by NonText
+"" For Vim<8, replace EndOfBuffer by NonText
 autocmd vimenter * hi EndOfBuffer guibg=NONE ctermbg=NONE
-
+"
 command Reload execute "source ~/.config/nvim/init.vim"
 command Config execute ":e ~/.config/nvim/init.vim"
-
-" Only for nightly
-augroup highlight_yank
-  autocmd!
-  autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank()
-augroup END
-
-
-" Remaps for git fuggitive
+"
+"" Only for nightly
+""augroup highlight_yank
+""  autocmd!
+""  autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank()
+""augroup END
+""
+"
+"" Remaps for git fuggitive
 nnoremap <leader>gs :G<CR> 
 nnoremap <leader>gh :diffget //2<CR>
 nnoremap <leader>gl :diffget //3<CR>
 nnoremap <leader>gc :Gcommit<CR>
-nnoremap <leader>glg :Gllog<CR>
+noremap <leader>glg :Gllog<CR>
 nnoremap <leader>gp :Gpush<CR>
-
-" Remaps for commentary
+"
+"" Remaps for commentary
 nnoremap <leader>/ :Commentary<CR>
 vnoremap <leader>/ :Commentary<CR>
-
-" Fzf
+"
+""" Fzf
 nnoremap <leader>ff :Files<CR>
 nnoremap <leader>fl :Rg<CR>
 nnoremap <leader>fb :Buffers<CR>
 nnoremap <leader>fh :History:<CR>
 let g:fzf_layout = { 'window' : { 'width':0.8, 'height': 0.8 }}
 let $FZF_DEFAULT_OPTS='--reverse'
-
 if has("nvim")
   au TermOpen * tnoremap <Esc> <c-\><c-n>
   au FileType fzf tunmap <Esc>
 endif
+
